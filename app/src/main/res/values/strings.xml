@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Algoritmica II</string>
+    <string name="app_name">Algoritmica</string>
+    <string name="intro_texto">Introducir Texto</string>
+    <string name="corregir">Corregir Texto</string>
 </resources>
