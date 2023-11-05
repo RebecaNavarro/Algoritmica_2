@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Introduzca texto", Toast.LENGTH_SHORT).show()
             }
             else{
-                for (word in words) {
+                binding.porcentajeTextView.visibility = View.VISIBLE
+                val totalWords = words.size
+                var correctedWords = 0
+                for ((index, word) in words.withIndex()) {
 
                     var minDistance = Int.MAX_VALUE
                     var closestWord = word
@@ -44,11 +47,14 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         correctedText.append("<font color='#FF0000'>$closestWord</font> ")
+                        correctedWords++
                     }else {
                         correctedText.append("$word ")
+                        correctedWords++
                     }
-
                 }
+
+                binding.porcentajeTextView.visibility = View.GONE
                 binding.textoOculto.text = Html.fromHtml(correctedText.toString(), Html.FROM_HTML_MODE_LEGACY)
                 binding.textoOculto.visibility = View.VISIBLE
             }
