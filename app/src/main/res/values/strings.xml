@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Algoritmica</string>
-    <string name="intro_texto">Introducir Texto</string>
-    <string name="corregir">Corregir Texto</string>
+    <string name="app_name">LexiFix</string>
+    <string name="intro_texto">Enter your text here</string>
+    <string name="corregir">Fix It</string>
 </resources>
