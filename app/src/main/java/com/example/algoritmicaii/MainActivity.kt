@@ -2,6 +2,8 @@ package com.example.algoritmicaii
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
+import android.view.View
 import android.widget.Toast
 import com.example.algoritmicaii.databinding.ActivityMainBinding
 import java.io.BufferedReader
@@ -23,15 +25,16 @@ class MainActivity : AppCompatActivity() {
 
             val texto :String = binding.textoEdit.text.toString()
             val words = texto.split(Regex("\\s+|(?=[.,])|(?<=[.,])"))
-            val correctedText = mutableListOf<String>()
+            val correctedText = StringBuilder()
             if(texto.isEmpty()){
-                Toast.makeText(this,"Introduzca texto",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Introduzca texto", Toast.LENGTH_SHORT).show()
             }
             else{
                 for (word in words) {
 
                     var minDistance = Int.MAX_VALUE
                     var closestWord = word
+
                     if(word.matches(Regex(".*[a-zA-Z].*")) && checkSpelling(word)){
                         for (dictWord in englishDictionary) {
                             val distance = editDistance(word.toLowerCase(), dictWord)
@@ -40,15 +43,14 @@ class MainActivity : AppCompatActivity() {
                                 closestWord = dictWord
                             }
                         }
+                        correctedText.append("<font color='#FF0000'>$closestWord</font> ")
+                    }else {
+                        correctedText.append("$word ")
                     }
 
-
-                    correctedText.add(closestWord)
-
-
-
                 }
-                println(correctedText)
+                binding.textoOculto.text = Html.fromHtml(correctedText.toString(), Html.FROM_HTML_MODE_LEGACY)
+                binding.textoOculto.visibility = View.VISIBLE
             }
 
         }
