@@ -74,16 +74,6 @@
                 android:text="@string/corregir"
                 android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/porcentajeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:text="Cargando..." />
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

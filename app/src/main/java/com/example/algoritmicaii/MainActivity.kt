@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Introduzca texto", Toast.LENGTH_SHORT).show()
             }
             else{
-                binding.porcentajeTextView.visibility = View.VISIBLE
                 val totalWords = words.size
                 var correctedWords = 0
                 for ((index, word) in words.withIndex()) {
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
                     if(word.matches(Regex(".*[a-zA-Z].*")) && checkSpelling(word)){
                         for (dictWord in englishDictionary) {
-                            val distance = editDistance(word.toLowerCase(), dictWord)
+                            val distance = editDistance(word.toLowerCase(), dictWord, minDistance)
                             if (distance < minDistance) {
                                 minDistance = distance
                                 closestWord = dictWord
@@ -54,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                binding.porcentajeTextView.visibility = View.GONE
                 binding.textoOculto.text = Html.fromHtml(correctedText.toString(), Html.FROM_HTML_MODE_LEGACY)
                 binding.textoOculto.visibility = View.VISIBLE
             }
@@ -64,13 +62,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun editDistance(s1: String, s2: String): Int {
+    private fun editDistance(s1: String, s2: String, mi: Int): Int {
         val m = s1.length
         val n = s2.length
+
         val dp = Array(m + 1) { IntArray(n + 1) }
 
         for (i in 0..m) {
+            var dismin  =Int.MAX_VALUE
             for (j in 0..n) {
+
                 if (i == 0) {
                     dp[i][j] = j
                 } else if (j == 0) {
@@ -80,7 +81,10 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     dp[i][j] = 1 + min(dp[i][j - 1], min(dp[i - 1][j], dp[i - 1][j - 1]))
                 }
+                dismin = min(dismin,dp[i][j])
             }
+            if(dismin>= mi)
+                return Int.MAX_VALUE
         }
         return dp[m][n]
     }
@@ -89,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         try {
             val inputStream = resources.openRawResource(R.raw.english_dictionary)
             val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.useLines { lines -> lines.forEach { englishDictionary.add(it) } }
+            reader.useLines { lines -> lines.forEach { englishDictionary.add(it.toLowerCase()) } }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -98,4 +102,5 @@ class MainActivity : AppCompatActivity() {
     private fun checkSpelling(word: String) : Boolean{
         return !englishDictionary.contains(word.toLowerCase())
     }
+
 }
