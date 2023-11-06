@@ -19,12 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadEnglishDictionary()
+        loadEnglishDictionary() //cargamos el diccionario
         binding.corrector.setOnClickListener {
 
-
-            val texto :String = binding.textoEdit.text.toString()
-            val words = texto.split(Regex("\\s+|(?=[.,])|(?<=[.,])"))
+            val texto :String = binding.textoEdit.text.toString() //recibe el texto del usuario
+            val words = texto.split(Regex("\\s+|(?=[.,])|(?<=[.,])")) //analiza por partes
             val correctedText = StringBuilder()
             if(texto.isEmpty()){
                 Toast.makeText(this,"Introduzca texto", Toast.LENGTH_SHORT).show()
@@ -50,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 binding.textoOculto.text = Html.fromHtml(correctedText.toString(), Html.FROM_HTML_MODE_LEGACY)
-                binding.textoOculto.visibility = View.VISIBLE
+                binding.textoOculto.visibility = View.VISIBLE //que después de corregir salga el texto
             }
 
         }
@@ -79,11 +78,11 @@ class MainActivity : AppCompatActivity() {
         return dp[m][n]
     }
 
-    private fun loadEnglishDictionary() {
+    private fun loadEnglishDictionary() { //carga el diccionario
         try {
-            val inputStream = resources.openRawResource(R.raw.english_dictionary)
+            val inputStream = resources.openRawResource(R.raw.english_dictionary)//en este txt está el diccionario
             val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.useLines { lines -> lines.forEach { englishDictionary.add(it) } }
+            reader.useLines { lines -> lines.forEach { englishDictionary.add(it) } } //lee todas las lineas del diccionario
         } catch (e: Exception) {
             e.printStackTrace()
         }
